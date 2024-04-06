@@ -4,21 +4,18 @@ const router = Router();
 
 const { handlerGetAllDrivers } = require ("../handlers/handlerGetAll");
 const { handlerGetDriverById } = require("../handlers/handlerGetById");
+const { handlerPostDriver } = require("../handlers/handlerPost");
+const { handlergetDriverByName } = require("../handlers/handlerGetByName");
+const { handlerGetAllTeams } = require("../handlers/handlerGetTeams");
 
 router.get("/drivers", handlerGetAllDrivers);
 
 router.get("/drivers/:id", handlerGetDriverById);
 
-router.get("/drivers/name", (req, res)=>{
-    res.status(200).send("Aquí está el usuario por nombre");
-});
+router.get("/drivers", handlergetDriverByName);
 
-router.post("/drivers", (req, res)=>{
-    res.status(200).send("Creo un nuevo driver");
-});
+router.post("/drivers", handlerPostDriver);
 
-router.get("/teams", (req, res)=>{
-    res.status(200).send("Aquí están todos los teams");
-});
+router.get("/teams", handlerGetAllTeams);
 
 module.exports = router;

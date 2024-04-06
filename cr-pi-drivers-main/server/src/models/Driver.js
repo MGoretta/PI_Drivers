@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
   sequelize.define('Driver', {
     id: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       primaryKey: true,
     },
@@ -26,12 +26,12 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    nacionality: {
+    nationality: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     dob: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,//fijarse DATE
       allowNull: false,
     },
   });

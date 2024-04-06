@@ -30,8 +30,8 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 const { Driver, Team } = sequelize.models;
 
-Driver.belongsToMany(Team, { through: "DriverTeam"});
-Team.belongsToMany(Driver, { through: "DriverTeam"});
+Driver.belongsToMany(Team, { through: "driver_team"});//tablas intermedias con minúsculas y un guión medio o bajo
+Team.belongsToMany(Driver, { through: "driver_team"});
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

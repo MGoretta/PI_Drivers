@@ -1,31 +1,100 @@
-const fs = require("fs");
-const path = require("path");
+const { Driver, Team } = require("../db");
+const axios = require('axios');
 
-// Ruta al archivo JSON de los pilotos
-const driversFilePath = path.join(__dirname, "../../api/db.json");
+const clean = (arr) => {
+  if (!arr || !Array.isArray(arr)) {
+    return [];
+  }
 
-// Obtener todos los pilotos del archivo JSON
-function getAllDrivers() {
+  return arr.map((driver) => {
+    return {
+      id: driver.id,
+      name: driver.name.forename,
+      lastname: driver.name.surname,
+      description: driver.description,
+      image: driver.image.url,
+      nationality: driver.nationality,
+      dob: driver.dob,
+      teams: driver.teams,
+      created: false,
+    };
+  });
+};
+
+const getDriversFromDB = async () => {
   try {
-    // Leer los datos del archivo JSON
-    const driversData = fs.readFileSync(driversFilePath, "utf8");
-    const driversJson = JSON.parse(driversData);
-    const drivers = driversJson.drivers;
-
-    // Si un piloto no tiene imagen, se le coloca una por defecto
-    drivers.forEach((driver) => {
-      if (!driver.image.url) {
-        driver.image = { url: "/assets/img-default.jpg" };
-      }
+    const drivers = await Driver.findAll({
+      include: [{ model: Team, through: "driver_team" }]
     });
-
     return drivers;
   } catch (error) {
-    console.error("Error al obtener conductores:", error);
-    throw new Error("Error interno del servidor");
+    console.error("Error fetching drivers from DB:", error);
+    return [];
   }
-}
+};
+
+const getDriversFromAPI = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/drivers');
+    return clean (response.data);
+  } catch (error) {
+    console.error("Error fetching drivers from API:", error);
+    return [];
+  }
+};
+console.log(getDriversFromAPI);
+
+const getAllDrivers = async () => {
+  console.log("Fetching drivers from DB...");
+  const driversFromDB = await getDriversFromDB();
+  console.log(driversFromDB);
+
+  console.log("Fetching drivers from API...");
+  const driversFromAPI = await getDriversFromAPI();
+  console.log("Drivers from API:", driversFromAPI);
+
+  return [...driversFromDB, ...driversFromAPI];
+};
 
 module.exports = {
   getAllDrivers,
 };
+console.log(getAllDrivers);
+
+
+// const fs = require("fs");
+// const path = require("path");
+// const { Driver } = require ("../db");
+
+// // Ruta al archivo JSON de los pilotos
+// const driversFilePath = path.join(__dirname, "../../api/db.json");
+
+// // Obtener todos los pilotos del archivo JSON
+// async function getAllDrivers() {
+//   try {
+//     // Leer los datos del archivo JSON
+//     const driversData = fs.readFileSync(driversFilePath, "utf8");
+//     const driversJson = JSON.parse(driversData);
+//     const driversFromFile = driversJson.drivers;
+
+//     const driversFromDb = await Driver.findAll();
+
+//     const drivers = [...driversFromFile, ...driversFromDb];
+
+//     // Si un piloto no tiene imagen, se le coloca una por defecto
+//     drivers.forEach((driver) => {
+//       if (!driver.image.url) {
+//         driver.image = { url: "/assets/img-default.jpg" };
+//       }
+//     });
+
+//     return drivers;
+//   } catch (error) {
+//     console.error("Error al obtener conductores:", error);
+//     throw new Error("Error interno del servidor");
+//   }
+// }
+
+// module.exports = {
+//   getAllDrivers,
+// };

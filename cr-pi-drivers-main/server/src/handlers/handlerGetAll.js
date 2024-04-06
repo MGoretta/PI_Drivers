@@ -2,7 +2,7 @@ const driversController = require("../controllers/getAllDrivers");
 
 async function handlerGetAllDrivers(req, res) {
     try {
-      const drivers = driversController.getAllDrivers();
+      const drivers = await driversController.getAllDrivers();
   
       res.json(drivers);
     } catch (error) {
