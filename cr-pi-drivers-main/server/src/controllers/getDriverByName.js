@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+const axios = require("axios");
 const { Sequelize } = require("sequelize");
 const { Driver, Team } = require("../db");
 
@@ -7,9 +7,8 @@ const getDriversByNameFromDatabase = async (name) => {
   const drivers = await Driver.findAll({
     where: {
       [Sequelize.Op.or]: [
-        { forename: { [Sequelize.Op.iLike]: `%${name}%` } },
-        { surname: { [Sequelize.Op.iLike]: `%${name}%` } },
-        Sequelize.literal(`name || ' ' || lastname ILIKE '%${name}%'`),
+        { name: { [Sequelize.Op.iLike]: `%${name}%` } },
+        { lastname: { [Sequelize.Op.iLike]: `%${name}%` } },
       ],
     },
     include: [{ model: Team, through: "driver_team" }],
@@ -22,15 +21,17 @@ const getDriversByNameFromServer = async (name) => {
   try {
     // Hacer una solicitud para obtener todos los conductores disponibles
     const response = await axios.get(
-      `http://localhost:3001/drivers`
+      `http://127.0.0.1:3001/drivers`
     );
+    console.log(response);
     // Obtener los conductores de la respuesta
     const driversApi = response.data;
     // Filtrar los conductores por nombre o apellido
     const nameLowercase = name.toLowerCase();
     const drivers = driversApi.filter((driver) => {
+      console.log(driver);
       const fullName =
-        `${driver.name.forename} ${driver.name.surname}`.toLowerCase();
+        `${driver.name} ${driver.lastname}`.toLowerCase();
       return fullName.includes(nameLowercase);
     });
     // Devolver los conductores encontrados
@@ -41,7 +42,12 @@ const getDriversByNameFromServer = async (name) => {
   }
 };
 
+const getDriverByName = async (name) => {
+  const driversNameDB = await getDriversByNameFromDatabase(name);
+  const driversNameAPI = await getDriversByNameFromServer(name);
+  return [...driversNameDB, ...driversNameAPI];
+};
+
 module.exports = {
-  getDriversByNameFromDatabase,
-  getDriversByNameFromServer,
+  getDriverByName
 };

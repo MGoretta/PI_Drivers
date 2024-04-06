@@ -1,17 +1,20 @@
-const driversController = require("../controllers/getAllDrivers");
+const { getAllDrivers }= require("../controllers/getAllDrivers")
+const { getDriverByName } = require("../controllers/getDriverByName");
 
 async function handlerGetAllDrivers(req, res) {
-    try {
-      const drivers = await driversController.getAllDrivers();
-  
-      res.json(drivers);
-    } catch (error) {
-      // Maneja cualquier error ocurrido durante el proceso
-      console.error("Error al obtener conductores:", error);
-      res.status(500).json({ error: "Error interno del servidor" });
-    }
+  const { name } = req.query;
+  try {
+    if (name) {
+      const response = await getDriverByName(name);
+    res.json(response);
+  } else {
+      const response = await getAllDrivers();
+      res.json(response);
   }
-  
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+};
   module.exports = {
     handlerGetAllDrivers,
   };
