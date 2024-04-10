@@ -24,17 +24,17 @@ const postDriver = async (
     // Divide los nombres de los equipos y los limpia
     const teamNames = teams.split(",").map((team) => team.trim());
     // Busca los equipos en la base de datos
-    const foundTeams = await Team.findAll({
+    const foundTeams = await Team.findAll({ //findByname o la correspondiente
       where: {
         name: teamNames,
       },
     });
 
     // Asocia los equipos encontrados al nuevo conductor
-    await newDriver.addTeams(foundTeams);
+    await newDriver.addTeams(foundTeams); //aquí lógica del filtro
 
     // Retorna un mensaje de éxito
-    return { message: "Conductor creado exitosamente", driver: newDriver };
+    return { message: "Conductor creado exitosamente", driver: newDriver }; 
   } catch (error) {
     // Maneja cualquier error ocurrido durante el proceso
     console.error("Error original al crear conductor:", error);
