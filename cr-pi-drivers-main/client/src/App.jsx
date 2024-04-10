@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Form } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import './App.css';
 import NavBar from "./Components/NavBar/NavBar";
@@ -11,17 +11,14 @@ function App() {
   
   return (
     <div>
-      <BrowserRouter>
       <NavBar/>
         <Routes>
           <Route path="/" Component={Landing}/>
           <Route path="/home" Component={Home}/>
-          <Route path="/detail:id" Component={Detail}/>
+          <Route path="/detail/:id" Component={Detail}/>
           <Route path="/create" Component={Create}/>
         </Routes>
-      </BrowserRouter>  
-    </div>
-      
+    </div>     
   )
 }
 
