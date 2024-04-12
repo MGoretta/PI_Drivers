@@ -2,15 +2,18 @@ import React from "react";
 
 import Card from "../Card/Card";
 
-const Cards = () => {
+function Cards ({drivers}) {
+
+  const driverList = drivers;
  
   return (
     <div>
-     <p>Esto es Cards</p>
-     <Card />
+      {driverList?.map((driver)=> (
+     <Card driver = {driver}/>
+    ))}
     </div>
   );
 }
 
-export default Cards
+export default Cards;
 

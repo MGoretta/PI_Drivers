@@ -24,14 +24,29 @@ const clean = (arr) => {
 const getDriversFromDB = async () => {
   try {
     const drivers = await Driver.findAll({
-      include: [{ model: Team, through: "driver_team" }]
+      include: Team
     });
-    return drivers;
+    const mappedDrivers = drivers.map(driv => {
+      const teamsString = driv.Teams.map((t) => t.name).join(', '); // Unir los nombres de los equipos en un solo string separado por comas
+      return {
+        id: driv.id,
+        name: driv.name,
+        lastname: driv.lastname,
+        description: driv.description,
+        image: driv.image,
+        nationality: driv.nationality,
+        dob: driv.dob,
+        teams: teamsString
+      };
+    });
+    return mappedDrivers;
   } catch (error) {
     console.error("Error fetching drivers from DB:", error);
     return [];
   }
 };
+
+
 
 const getDriversFromAPI = async () => {
   try {

@@ -11,11 +11,10 @@ function App() {
   
   return (
     <div>
-      <NavBar/>
         <Routes>
           <Route path="/" Component={Landing}/>
-          <Route path="/home" Component={Home}/>
-          <Route path="/detail/:id" Component={Detail}/>
+          <Route exact path="/home" Component={Home}/>
+          <Route path="/home/:id" Component={Detail}/>
           <Route path="/create" Component={Create}/>
         </Routes>
     </div>     

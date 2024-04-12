@@ -1,5 +1,4 @@
 const axios = require('axios');
-
 const { Team } = require('../db');
 
 const getAllTeams = async (req, res) => {
