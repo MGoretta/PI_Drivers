@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchDrivers, getByName } from "../../Redux/Actions/actions";
 import Cards from "../../Components/Cards/Cards";
-import NavBar from "../../Components/NavBar/NavBar";
 
 const Home = () => {
 
@@ -21,6 +20,20 @@ const Home = () => {
         dispatch(getByName(searchString))
     }
 
+    useEffect(()=>{
+        dispatch(fetchDrivers());
+    }, [dispatch]);
+
+    return(
+        <div>
+            <p>Esto es Home</p>           
+              <Cards drivers={drivers}/>
+        </div>
+    )
+}
+
+export default Home;
+
     // const [filtered, setFiltered] = useState(drivers);
     // const [searchString, setSearchString] = useState("");
 
@@ -36,18 +49,3 @@ const Home = () => {
     //     )
     //     setFiltered(filtered);
     // };
-
-    useEffect(()=>{
-        dispatch(fetchDrivers());
-    }, [dispatch]);
-
-    return(
-        <div>
-            <p>Esto es Home</p>
-           <NavBar handleChange={handleChange} handleSubmit={handleSubmit}/>
-            <Cards drivers={drivers}/>
-        </div>
-    )
-}
-
-export default Home;

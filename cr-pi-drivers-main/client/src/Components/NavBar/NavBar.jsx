@@ -1,15 +1,30 @@
-import "./NavBar"
+import { Link, useLocation } from "react-router-dom";
+import  SearchBar  from "../SearchBar/SearchBar";
+import "./NavBar.css";
 
-const NavBar = ({handleChange, handleSubmit}) => {
+const NavBar = () => {
+  const { pathname } = useLocation();
+
   return (
-    <div>
-      <h1>Esto es NavBar</h1>
-      <form onChange={ handleChange }>
-        <input placeholder="Búsqueda" type="search"/>
-        <button type="submit" onClick={handleSubmit}>Buscar</button>
-      </form>
-    </div>
-  )
-}
+    <header className="header">
+      <nav className="nav">
+        <Link to={"/"}>
+          <button className="navButton navButtonClose">Landing</button>
+        </Link>
+        <div className="navButtons">
+          <Link to={"/home"}>
+            <button className="navButton">Home</button>
+          </Link>
+          <Link to={"/form"}>
+            <button className="navButton">Create</button>
+          </Link>
+          <div className="navSearch">
+            {pathname === "/home" && <SearchBar />}
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+};
 
-export default NavBar
+export default NavBar;

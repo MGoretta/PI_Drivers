@@ -1,30 +1,40 @@
 import { useState } from "react";
+import "./SearchBar";
 import { useDispatch } from "react-redux";
-import { searchDrivers } from "../../Redux/Actions/actions"
+import { getByName } from "../../Redux/Actions/actions";
 
-const SearchBar = () => {
+export default function SearchBar() {
+  const [name, setName] = useState("");
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
 
-    const [state, setState] = useState("");
-
-    const handleChange = (event) => {
-        setState(event.target.value)
+  const search = () => {
+    if (name.trim() !== "") {
+      dispatch(getByName(name));
+      setName("");
     }
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        dispatch(searchDrivers(state))
-    }
-
-    return (
-        <div>
-            <form>onSubmit={handleSubmit} 
-            <input onChange= {handleChange} type="text"/>
-            <input type="submit"/>
-            </form>
-        </div>
-    )
+  return (
+    <div className="searchBar">
+      <input
+        type="search"
+        onChange={handleChange}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            search();
+          }
+        }}
+        placeholder="Enter a name"
+        value={name}
+        className="searchInput"
+      />
+      <button className="searchButton" onClick={search}>
+        Search
+      </button>
+    </div>
+  );
 }
-
-export default SearchBar;

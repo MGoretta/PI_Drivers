@@ -1,34 +1,78 @@
-/* .landing-container {
-    background-color: black;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
-
 .landing {
     margin: 0;
     height: 100vh;
-    width: 100vh;
+    width: 100vw;
     position: relative;
-    background-color: black;
-    background-image: url('../../assets/backlanding.jpg');
+    background-color: #00000078;
     display: flex;
     align-items: center;
 }
 
-/* Estilos para el botón */
-.buttonLanding {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 15px 32px;
+.landing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-image: url('../../assets/fondolanding.jpg');
+    z-index: -1;
+}
+
+.containerLanding{
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    height: 20vh;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 20px;
+    justify-content: space-evenly;
+    border-radius: 25px;
+    margin-left: 25vw;
+    align-items: center;
+    margin-bottom: 10vh;
+}
+
+.imgLanding {
+    animation: jump 1s infinite alternate;
+    height: 4vw;
+    filter: brightness(0) invert(1);
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.buttonLanding {
+    margin-left: 370px;
+    padding: 1rem 3rem;
+    border: none;
+    background: #fff;
+    text-align: center;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 3px 3px 6px #000000;
+    color: #900;
+    font-size: 45px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-family: "Oswald", sans-serif;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.332);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.buttonLanding:hover {
+    transform: translate(5px, -5px);
+    background: #fff;
+    text-shadow: none;
 }
