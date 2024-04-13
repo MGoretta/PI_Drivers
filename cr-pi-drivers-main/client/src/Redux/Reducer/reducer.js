@@ -1,11 +1,12 @@
 // importar las actions-types
 
-import { FETCH_DRIVERS, GET_BY_NAME } from "../Actions/actions";
+import { FETCH_DRIVERS, GET_BY_NAME, ORDER_DOB, FETCH_DRIVER_BY_ID } from "../Actions/actions";
 
 // definir el initialState
 let initialState = {
 drivers: [],
 driversCopy: [],
+driver: {},
 };
 
 // definir la función rootReducer
@@ -22,6 +23,23 @@ switch (action.type) {
             ...state,
             drivers: action.payload,
         };
+        case FETCH_DRIVER_BY_ID:
+            return {
+              ...state,
+              driver: action.payload,
+            };
+        case ORDER_DOB:
+            sortedDriversByDob = sortDrivers(
+              state.filteredDrivers,
+              "dob",
+              action.payload
+            );
+            return {
+              ...state,
+              selectedOrder: "dob",
+              selectedDirection: action.payload,
+              filteredDrivers: sortedDriversByDob,
+            };
         default:
         return state;
 };
