@@ -3,6 +3,7 @@ import axios from "axios";
 export const FETCH_DRIVERS = "FETCH_DRIVERS";
 export const GET_BY_NAME = "GET_BY_NAME";
 export const ORDER_DOB = "ORDER_DOB";
+export const ORDER_NAME = "ORDER_NAME";
 export const CREATE_DRIVER_REQUEST = "CREATE_DRIVER_REQUEST";
 export const CREATE_DRIVER_SUCCESS = "CREATE_DRIVER_SUCCESS";
 export const CREATE_DRIVER_FAILURE = "CREATE_DRIVER_FAILURE";
@@ -35,6 +36,26 @@ export function getByName (name) {
       }
   };
 };
+export const searchDriverByName = (name) => {
+  return async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:3001/drivers?name=${name}`
+      );
+      const { data } = response;
+
+      if (!Array.isArray(data) || data.length === 0) {
+        return null;
+      }
+
+      return data[0];
+    } catch (error) {
+      console.error("Error al buscar conductor por nombre:", error);
+      return null;
+    }
+  };
+};
+
 export const fetchDriverById = (id) => {
   return async (dispatch) => {
     try {
@@ -61,21 +82,30 @@ export const fetchDriverById = (id) => {
     }
   };
 };
-export function setOrderDOB (direction) {
-  return {
-    type: "ORDER_DOB",
-    payload: direction,
-  };
-};
 
 export const createDriverRequest = (driverData) => {
   return async (dispatch) => {
+    console.log("Datos del conductor a enviar al servidor:", driverData);
     dispatch({ type: CREATE_DRIVER_REQUEST });
     try {
-      await axios.post("http://127.0.0.1:3001/drivers", driverData);
+      await axios.post("http://localhost:3001/drivers", driverData);
       dispatch({ type: CREATE_DRIVER_SUCCESS });
     } catch (error) {
       dispatch({ type: CREATE_DRIVER_FAILURE, payload: error.message });
     }
+  };
+};
+
+export const setOrderDob = (direction) => {
+  return {
+    type: ORDER_DOB,
+    payload: direction,
+  };
+};
+
+export const setOrderName = (direction) => {
+  return {
+    type: ORDER_NAME,
+    payload: direction,
   };
 };

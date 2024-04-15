@@ -1,4 +1,4 @@
-import { getByName } from "../../Redux/Actions/actions";
+import { searchDriverByName } from "../../Redux/Actions/actions";
 
 const validateEmptyFields = (
     forename,
@@ -84,7 +84,7 @@ const validateEmptyFields = (
 
   const isDriverExists = async (forename, surname) => {
     try {
-      const driverDataExists = await getByName(
+      const driverDataExists = await searchDriverByName(
         `${forename} ${surname}`
       )();
   

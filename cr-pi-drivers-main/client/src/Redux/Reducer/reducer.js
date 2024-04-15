@@ -1,6 +1,15 @@
 // importar las actions-types
 
-import { FETCH_DRIVERS, GET_BY_NAME, ORDER_DOB, FETCH_DRIVER_BY_ID, CREATE_DRIVER_REQUEST, CREATE_DRIVER_SUCCESS, CREATE_DRIVER_FAILURE} from "../Actions/actions";
+import { 
+  FETCH_DRIVERS, 
+  GET_BY_NAME, 
+  ORDER_DOB, 
+  ORDER_NAME,
+  FETCH_DRIVER_BY_ID, 
+  CREATE_DRIVER_REQUEST, 
+  CREATE_DRIVER_SUCCESS, 
+  CREATE_DRIVER_FAILURE
+} from "../Actions/actions";
 
 // definir el initialState
 let initialState = {
@@ -9,6 +18,10 @@ driversCopy: [],
 driver: {},
 loading: true,
 error: null,
+filter: {
+  origin: "all",
+  teams: "all",
+},
 };
 
 // definir la función rootReducer
@@ -47,6 +60,18 @@ switch (action.type) {
                 loading: false,
                 error: action.payload,
               };
+              case ORDER_NAME:
+      sortedDriversByName = sortDrivers(
+        state.filteredDrivers,
+        "name",
+        action.payload
+      );
+      return {
+        ...state,
+        selectedOrder: "name",
+        selectedDirection: action.payload,
+        filteredDrivers: sortedDriversByName,
+      };
 
     case ORDER_DOB:
             sortedDriversByDob = sortDrivers(
