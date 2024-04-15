@@ -4,12 +4,12 @@ const postDriver = require("../controllers/postDriver");
 const handlerPostDriver = async (req, res) => {
   try {
     // Extrae los datos, crea un nuevo conductor
-    const { name, lastname, description, image, nationality, dob, teams } =
+    const { forename, surname, description, image, nationality, dob, teams } =
       req.body;
 
     const result = await postDriver(
-      name,
-      lastname,
+      forename,
+      surname,
       description,
       image,
       nationality,

@@ -8,20 +8,20 @@ export const CREATE_DRIVER_SUCCESS = "CREATE_DRIVER_SUCCESS";
 export const CREATE_DRIVER_FAILURE = "CREATE_DRIVER_FAILURE";
 export const FETCH_DRIVER_BY_ID = "FETCH_DRIVER_BY_ID";
 
-
 export function fetchDrivers () {
-    return async function (dispatch){
-        try {
-          const response = await axios.get("http://127.0.0.1:3001/drivers/");  
-          return dispatch ({
-            type: "FETCH_DRIVERS",
-            payload: response.data,
-          })
-        } catch (error) {
-            console.error("Error al cargar los drivers:", error);  
-        }
-    };
+  return async function (dispatch){
+      try {
+        const response = await axios.get("http://127.0.0.1:3001/drivers/");  
+        return dispatch ({
+          type: "FETCH_DRIVERS",
+          payload: response.data,
+        })
+      } catch (error) {
+          console.error("Error al cargar los drivers:", error);  
+      }
+  };
 };
+
 export function getByName (name) {
   return async function (dispatch){
       try {
@@ -67,14 +67,15 @@ export function setOrderDOB (direction) {
     payload: direction,
   };
 };
-export function createDriverRequest (driverData) {
+
+export const createDriverRequest = (driverData) => {
   return async (dispatch) => {
-    dispatch({ type: "CREATE_DRIVER_REQUEST" });
+    dispatch({ type: CREATE_DRIVER_REQUEST });
     try {
-      await axios.post("http://127.0.0.1:3001/drivers/addDriver", driverData);
-      dispatch({ type: "CREATE_DRIVER_SUCCESS" });
+      await axios.post("http://127.0.0.1:3001/drivers", driverData);
+      dispatch({ type: CREATE_DRIVER_SUCCESS });
     } catch (error) {
-      dispatch({ type: "CREATE_DRIVER_FAILURE", payload: error.message });
+      dispatch({ type: CREATE_DRIVER_FAILURE, payload: error.message });
     }
   };
 };

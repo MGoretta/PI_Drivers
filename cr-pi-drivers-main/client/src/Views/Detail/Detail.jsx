@@ -17,8 +17,8 @@ const Detail = () => {
     return(
         <div>
             <p>Esto es Detail</p>
-            <h3>Name: {driver?.name?.forename || driver?.name}</h3>
-            <h3>Lastname: {driver?.name?.surname || driver?.lastname}</h3>
+            <h3>Forename: {driver?.name?.forename || driver?.forename}</h3>
+            <h3>Surname: {driver?.name?.surname || driver?.surname}</h3>
             <p>
               Teams:{" "}
               {Array.isArray(driver?.Teams)

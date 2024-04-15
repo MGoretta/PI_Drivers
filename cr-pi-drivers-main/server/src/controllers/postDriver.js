@@ -2,8 +2,8 @@ const { Driver, Team } = require("../db");
 
 // Crea un nuevo conductor en la base de datos con la información proporcionada
 const postDriver = async (
-  name,
-  lastname,
+  forename,
+  surname,
   description,
   image,
   nationality,
@@ -13,8 +13,8 @@ const postDriver = async (
   try {
     // Crea el nuevo conductor en la base de datos
     const newDriver = await Driver.create({
-      name,
-      lastname,
+      forename,
+      surname,
       description,
       image,
       nationality,

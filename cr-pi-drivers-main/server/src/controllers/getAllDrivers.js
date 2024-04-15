@@ -9,8 +9,8 @@ const clean = (arr) => {
   return arr.map((driver) => {
     return {
       id: driver.id,
-      name: driver.name.forename,
-      lastname: driver.name.surname,
+      forename: driver.name.forename,
+      surname: driver.name.surname,
       description: driver.description,
       image: driver.image.url,
       nationality: driver.nationality,
@@ -30,8 +30,8 @@ const getDriversFromDB = async () => {
       const teamsString = driv.Teams.map((t) => t.name).join(', '); // Unir los nombres de los equipos en un solo string separado por comas
       return {
         id: driv.id,
-        name: driv.name,
-        lastname: driv.lastname,
+        forename: driv.forename,
+        surname: driv.surname,
         description: driv.description,
         image: driv.image,
         nationality: driv.nationality,

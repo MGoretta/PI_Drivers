@@ -15,7 +15,7 @@ const NavBar = () => {
           <Link to={"/home"}>
             <button className="navButton">Home</button>
           </Link>
-          <Link to={"/form"}>
+          <Link to={"/create"}>
             <button className="navButton">Create</button>
           </Link>
           <div className="navSearch">

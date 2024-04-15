@@ -7,8 +7,8 @@ const getDriversByNameFromDatabase = async (name) => {
   const drivers = await Driver.findAll({
     where: {
       [Sequelize.Op.or]: [
-        { name: { [Sequelize.Op.iLike]: `%${name}%` } },
-        { lastname: { [Sequelize.Op.iLike]: `%${name}%` } },
+        { forename: { [Sequelize.Op.iLike]: `%${name}%` } },
+        { surname: { [Sequelize.Op.iLike]: `%${name}%` } },
       ],
     },
     include: [{ model: Team, through: "driver_team" }],
@@ -31,7 +31,7 @@ const getDriversByNameFromServer = async (name) => {
     const drivers = driversApi.filter((driver) => {
       console.log(driver);
       const fullName =
-        `${driver.name} ${driver.lastname}`.toLowerCase();
+        `${driver.forename} ${driver.surname}`.toLowerCase();
       return fullName.includes(nameLowercase);
     });
     // Devolver los conductores encontrados
