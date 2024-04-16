@@ -8,7 +8,9 @@ import {
   FETCH_DRIVER_BY_ID, 
   CREATE_DRIVER_REQUEST, 
   CREATE_DRIVER_SUCCESS, 
-  CREATE_DRIVER_FAILURE
+  CREATE_DRIVER_FAILURE,
+  FILTER,
+  PAGINATE
 } from "../Actions/actions";
 
 // definir el initialState
@@ -16,12 +18,17 @@ let initialState = {
 drivers: [],
 driversCopy: [],
 driver: {},
-loading: true,
+loading: false,
+currentPage: 1,
+driversPerPage: 9,
+filteredDrivers: [],
 error: null,
 filter: {
   origin: "all",
   teams: "all",
 },
+selectedOrder: "name",
+selectedDirection: "ASC",
 };
 
 // definir la función rootReducer

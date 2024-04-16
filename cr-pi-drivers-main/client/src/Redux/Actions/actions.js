@@ -8,6 +8,8 @@ export const CREATE_DRIVER_REQUEST = "CREATE_DRIVER_REQUEST";
 export const CREATE_DRIVER_SUCCESS = "CREATE_DRIVER_SUCCESS";
 export const CREATE_DRIVER_FAILURE = "CREATE_DRIVER_FAILURE";
 export const FETCH_DRIVER_BY_ID = "FETCH_DRIVER_BY_ID";
+export const FILTER = "FILTER";
+export const PAGINATE = "PAGINATE";
 
 export function fetchDrivers () {
   return async function (dispatch){
@@ -26,7 +28,7 @@ export function fetchDrivers () {
 export function getByName (name) {
   return async function (dispatch){
       try {
-        const response = await axios.get(`http://127.0.0.1:3001/drivers?name=${name}`);  
+        const response = await axios.get(`http://localhost:3001/drivers?name=${name}`);  
         return dispatch ({
           type: "GET_BY_NAME",
           payload: response.data,
@@ -86,26 +88,40 @@ export const fetchDriverById = (id) => {
 export const createDriverRequest = (driverData) => {
   return async (dispatch) => {
     console.log("Datos del conductor a enviar al servidor:", driverData);
-    dispatch({ type: CREATE_DRIVER_REQUEST });
+    dispatch({ type: "CREATE_DRIVER_REQUEST" });
     try {
       await axios.post("http://localhost:3001/drivers", driverData);
-      dispatch({ type: CREATE_DRIVER_SUCCESS });
+      dispatch({ type: "CREATE_DRIVER_SUCCESS" });
     } catch (error) {
-      dispatch({ type: CREATE_DRIVER_FAILURE, payload: error.message });
+      dispatch({ type: "CREATE_DRIVER_FAILURE", payload: error.message });
     }
   };
 };
 
 export const setOrderDob = (direction) => {
   return {
-    type: ORDER_DOB,
+    type: "ORDER_DOB",
     payload: direction,
   };
 };
 
 export const setOrderName = (direction) => {
   return {
-    type: ORDER_NAME,
+    type: "ORDER_NAME",
     payload: direction,
+  };
+};
+
+export const setPage = (page, driversPerPage = 9) => {
+  return {
+    type: PAGINATE,
+    payload: { page, driversPerPage },
+  };
+};
+
+export const setFilter = (filters) => {
+  return {
+    type: FILTER,
+    payload: filters,
   };
 };

@@ -8,33 +8,30 @@ export default function SearchBar() {
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
+    event.preventDefault()
     setName(event.target.value);
   };
 
-  const search = () => {
-    if (name.trim() !== "") {
+  const search = (event) => {
+    event.preventDefault()
       dispatch(getByName(name));
-      setName("");
-    }
+      setName("");  
   };
 
   return (
     <div className="searchBar">
-      <input
-        type="search"
-        onChange={handleChange}
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            search();
-          }
-        }}
-        placeholder="Enter a name"
-        value={name}
-        className="searchInput"
-      />
-      <button className="searchButton" onClick={search}>
-        Search
-      </button>
+      <form onSubmit={search}>
+            <input
+              type="text"
+              placeholder="Enter a name"
+              value={name}
+              onChange={handleChange}
+              className="searchInput"
+            />
+            <button type="submit" className="searchButton">
+              Search
+            </button>
+          </form>
     </div>
   );
 }

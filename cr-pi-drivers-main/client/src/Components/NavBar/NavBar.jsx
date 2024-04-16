@@ -5,6 +5,10 @@ import "./NavBar.css";
 const NavBar = () => {
   const { pathname } = useLocation();
 
+// const preventDefault = (event) => {
+//   event.preventDefault()
+// }
+
   return (
     <header className="header">
       <nav className="nav">
@@ -12,9 +16,9 @@ const NavBar = () => {
           <button className="navButton navButtonClose">Landing</button>
         </Link>
         <div className="navButtons">
-          <Link to={"/home"}>
+          <a href="/home">
             <button className="navButton">Home</button>
-          </Link>
+          </a>
           <Link to={"/create"}>
             <button className="navButton">Create</button>
           </Link>

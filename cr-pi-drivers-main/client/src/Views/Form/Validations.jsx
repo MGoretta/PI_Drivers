@@ -35,12 +35,12 @@ const validateEmptyFields = (
   };
 
   const validateDateFormat = (dob) => {
-    const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+    const dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
     if (!dateRegex.test(dob)) {
       return false;
     }
   
-    const [day, month, year] = dob.split("/").map(Number);
+    const [year, month, day] = dob.split("/").map(Number);
     if (
       day < 1 ||
       day > 31 ||
@@ -116,7 +116,7 @@ const validateEmptyFields = (
     const formattedInput = truncatedInput
       .split("")
       .map((char, index) => {
-        if (index === 2 || index === 4) return "/" + char;
+        if (index === 4 || index === 6) return "/" + char;
         return char;
       })
       .join("");
