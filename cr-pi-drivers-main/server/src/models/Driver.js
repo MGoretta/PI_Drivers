@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     dob: {
-      type: DataTypes.DATE,//fijarse DATE
+      type: DataTypes.DATEONLY,//fijarse DATE
       allowNull: false,
     },
   });
