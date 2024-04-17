@@ -30,7 +30,8 @@ const getAllTeams = async (req, res) => {
             }
         }
         const allTeams = await Team.findAll();
-        res.json(allTeams);
+        const teamNames = allTeams.map(team => team.name);
+        res.json(teamNames);
     } catch (error) {
         console.error('Hubo un error al obtener los teams:', error);
         // Envía un mensaje de error más detallado
