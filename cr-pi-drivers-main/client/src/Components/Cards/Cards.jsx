@@ -1,6 +1,7 @@
 import React from "react";
 
 import Card from "../Card/Card";
+import "./Cards.css";
 
 function Cards ({drivers}) {
 

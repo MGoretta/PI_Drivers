@@ -1,0 +1,7 @@
+.cardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #D3D3D3; /* Color gris claro */
+    padding: 20px;
+   }

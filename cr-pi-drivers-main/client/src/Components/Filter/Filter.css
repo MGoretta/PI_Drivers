@@ -1,0 +1,39 @@
+.homeOrder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF; /* Color blanco */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+   }
+   
+   .homeConteinerSelect {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+   }
+   
+   .homeOrderSelect {
+    background-color: #FFFFFF; /* Color blanco */
+    color: #000000; /* Color negro */
+    border: 2px solid #FF0000; /* Borde rojo */
+    padding: 5px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+   }
+   
+   .homeOrderSelect:hover {
+    background-color: #FF4500; /* Color rojo más claro al pasar el cursor */
+   }
+   
+   .homeOrderLabel {
+    color: #000000; /* Color negro */
+    margin-right: 10px;
+   }
+   
+   .borderRight {
+    border-right: 2px solid #FF0000; /* Borde rojo */
+   }

@@ -20,5 +20,3 @@ function Card ({driver}) {
 }
 
 export default Card;
-
-// aquí, falta armar los estilos

@@ -1,0 +1,24 @@
+.searchBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #808080; /* Color gris */
+    padding: 10px;
+   }
+   
+   .searchInput {
+    margin-right: 10px;
+    padding: 5px;
+   }
+   
+   .searchButton {
+    background-color: #FF0000; /* Color rojo */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+   }
+   
+   .searchButton:hover {
+    background-color: #FF4500; /* Color rojo más claro al pasar el cursor */
+   }

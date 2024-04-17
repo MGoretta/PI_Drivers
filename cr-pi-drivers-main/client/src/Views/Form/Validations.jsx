@@ -77,7 +77,7 @@ const validateEmptyFields = (
     }
     const teamsArray = teams.split(",").map((team) => team.trim().toLowerCase());
     console.log("Valor de team:", teams);
-    const lowerCaseAllTeams = allTeams.map((team) => team.name.toLowerCase());
+    const lowerCaseAllTeams = allTeams.map((team) => team.toLowerCase());
   
     return teamsArray.every((team) => lowerCaseAllTeams.includes(team));
   };

@@ -10,6 +10,7 @@ export const CREATE_DRIVER_FAILURE = "CREATE_DRIVER_FAILURE";
 export const FETCH_DRIVER_BY_ID = "FETCH_DRIVER_BY_ID";
 export const FILTER = "FILTER";
 export const PAGINATE = "PAGINATE";
+export const SEARCH_DRIVERS = "SEARCH_DRIVERS";
 
 export function fetchDrivers () {
   return async function (dispatch){
@@ -38,6 +39,7 @@ export function getByName (name) {
       }
   };
 };
+
 export const searchDriverByName = (name) => {
   return async () => {
     try {
@@ -114,14 +116,88 @@ export const setOrderName = (direction) => {
 
 export const setPage = (page, driversPerPage = 9) => {
   return {
-    type: PAGINATE,
+    type: "PAGINATE",
     payload: { page, driversPerPage },
   };
 };
 
 export const setFilter = (filters) => {
   return {
-    type: FILTER,
+    type: "FILTER",
     payload: filters,
+  };
+};
+
+export const mergeDriversWithFilter = (
+  filteredDrivers,
+  newDrivers,
+  selectedOrder,
+  selectedDirection
+) => {
+  const mergedDrivers = [...filteredDrivers];
+  newDrivers.forEach((driver) => {
+    if (
+      !filteredDrivers.some((existingDriver) => existingDriver.id === driver.id)
+    ) {
+      mergedDrivers.push(driver);
+    }
+  });
+  return sortDrivers(mergedDrivers, selectedOrder, selectedDirection);
+};
+
+export const sortDrivers = (drivers, selectedOrder, selectedDirection) => {
+  let sortedDrivers = [...drivers];
+  if (selectedOrder === "name") {
+    sortedDrivers.sort((a, b) => {
+      const nameA = `${a.name?.forename || a.forename || ""} ${
+        a.name?.surname || a.surname || ""
+      }`;
+      const nameB = `${b.name?.forename || b.forename || ""} ${
+        b.name?.surname || b.surname || ""
+      }`;
+      const comparison = nameA.localeCompare(nameB);
+      return selectedDirection === "ASC" ? comparison : -comparison;
+    });
+  } else if (selectedOrder === "dob") {
+    sortedDrivers.sort((a, b) => {
+      const dobA = new Date(a.dob);
+      const dobB = new Date(b.dob);
+      return selectedDirection === "ASC" ? dobA - dobB : dobB - dobA;
+    });
+  }
+  return sortedDrivers;
+};
+
+export const searchDrivers = (name) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:3001/drivers/driverByName/name?name=${name}`
+      );
+      const { data } = response;
+      const currentState = getState();
+
+      if (!Array.isArray(data) || data.length === 0) {
+        return;
+      }
+
+      const filteredDrivers = data.filter((driver) => {
+        return !currentState.drivers.some(
+          (existingDriver) => existingDriver.id === driver.id
+        );
+      });
+
+      if (filteredDrivers.length === 0) {
+        return;
+      }
+
+      dispatch({
+        type: "SEARCH_DRIVERS",
+        payload: filteredDrivers,
+      });
+    } catch (error) {
+      console.error("Error al buscar conductores:", error);
+      alert("No drivers were found with that name. You can try creating one.");
+    }
   };
 };
