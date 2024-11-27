@@ -1,103 +1,82 @@
 // Filter.js
-import { useState, useEffect } from "react";
-import { setOrderDob, setOrderName } from "../../Redux/Actions/actions";
-import { useDispatch, useSelector } from "react-redux";
-import "./Filter";
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOrderByName, setOrderByDob } from '../../Redux/Actions/actions';
+import './filter.css';
 
 const Filter = ({ teams, handleFilter }) => {
-  const filterstateGlobal = useSelector((state) => state.filter);
-  const [filterstate, setFilterstate] = useState(filterstateGlobal);
-  const selectedOrderGlobal = useSelector((state) => state.selectedOrder);
-  const selectedDirectionGlobal = useSelector(
-    (state) => state.selectedDirection
-  );
-  const [selectedOrder, setSelectedOrder] = useState(selectedOrderGlobal);
-  const [selectedDirection, setSelectedDirection] = useState(
-    selectedDirectionGlobal
-  );
-  const dispatch = useDispatch();
+    const stateFilterGlobal = useSelector((state) => state.filter);
+    const [stateFilter, setStateFilter] = useState(stateFilterGlobal);
+    const globalSelectedOrder = useSelector((state) => state.selectedOrder);
+    const globalSelectedDirection = useSelector((state) => state.selectedDirection);
+    const [selectedOrder, setSelectedOrder] = useState(globalSelectedOrder);
+    const [selectedDirection, setSelectedDirection] = useState(globalSelectedDirection);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "origin" || name === "teams") {
-      setFilterstate({
-        ...filterstate,
-        [name]: value,
-      });
-    } else if (name === "order") {
-      setSelectedOrder(value);
-    } else if (name === "direction") {
-      setSelectedDirection(value);
-    }
-  };
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    handleFilter(filterstate);
-  }, [handleFilter, filterstate, filterstateGlobal]);
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        if(name === "origin" || name === "teams"){
+            setStateFilter({
+                ...stateFilter,
+                [name]: value
+            });
+        } else if(name === "order"){
+            setSelectedOrder(value);
+        } else if(name === "direction"){
+            setSelectedDirection(value);
+        }
+    };
 
-  useEffect(() => {
-    if (selectedOrder === "name" || selectedOrder === "dob") {
-      dispatch(
-        selectedOrder === "name"
-          ? setOrderName(selectedDirection)
-          : setOrderDob(selectedDirection)
-      );
-    }
-  }, [dispatch, selectedOrder, selectedDirection]);
+    useEffect(() => {
+        handleFilter(stateFilter);
+    }, [handleFilter, stateFilter, stateFilterGlobal]);
 
-  return (
-    <div className="homeOrder">
-      <div className="homeConteinerSelect">
-        <select
-          value={selectedOrderGlobal}
-          name="order"
-          onChange={handleChange}
-          className="homeOrderSelect"
-        >
-          <option value="name">Order by Name</option>
-          <option value="dob">Order by Date of Birth</option>
-        </select>
-        <select
-          value={selectedDirectionGlobal}
-          name="direction"
-          onChange={handleChange}
-          className="homeOrderSelect"
-        >
-          <option value="ASC">Ascending</option>
-          <option value="DESC">Descending</option>
-        </select>
-      </div>
-      <div className="homeConteinerSelect">
-        <label className="homeOrderLabel">Origin : </label>
-        <select
-          value={filterstateGlobal.origin}
-          name="origin"
-          onChange={handleChange}
-          className="homeOrderSelect"
-        >
-          <option value="all">All</option>
-          <option value="DB">My Drivers</option>
-          <option value="API">Original Drivers</option>
-        </select>
-      </div>
-      <div className="homeConteinerSelect borderRight">
-        <label className="homeOrderLabel">Team : </label>
-        <select
-          value={filterstateGlobal.teams}
-          onChange={handleChange}
-          className="homeOrderSelect"
-          name="teams"
-        >
-          <option value="all">All</option>
-          {teams.map((team) => (
-            <option key={team} value={team}>
-              {team}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-  );
+    useEffect(() => {
+        if(selectedOrder === "name" || selectedOrder === "dob"){
+            dispatch(
+                selectedOrder === "name" 
+                ? setOrderByName(selectedDirection)
+                : setOrderByDob(selectedDirection)
+            );
+        }
+    }, [dispatch, selectedOrder, selectedDirection]);
+
+    return(
+        <div className='orderHome'>
+            <div className='selectContainerHome'>
+                <select value={globalSelectedOrder} name='order' 
+                onChange={handleChange} className='selectOrderHome'>
+                    <option value="name">Ordenado por nombre</option>
+                    <option value="dob">Ordenado por la fecha de nacimiento</option>
+                </select>
+                <select value={globalSelectedDirection} name='direction' 
+                onChange={handleChange} className='selectOrderHome'>
+                    <option value="ASC">Ascendente</option>
+                    <option value="DESC">Descendente</option>
+                </select>
+            </div>
+            <div className='selectContainerHome'>
+                <label className='labelOrderHome'>Origen: </label>
+                <select value={stateFilterGlobal.origin} name='origin' 
+                onChange={handleChange} className='selectOrderHome'>
+                    <option value="all">Todos los Drivers</option>
+                    <option value="DB">Mis Drivers</option>
+                    <option value="API">Drivers Originales</option>
+                </select>
+            </div>
+            <div className='selectContainerHome rightBorder'>
+                <label className='labelOrderHome'>Team: </label>
+                <select value={stateFilterGlobal.teams} onChange={handleChange}
+                className='selectOrderHome' name='teams'>
+                    <option value="all">Todos los teams</option>
+                    {teams.map((team) => (
+                        <option key={team} value={team}>{team}</option>
+                    ))}
+                </select>
+            </div>
+        </div>
+    );
 };
 
 export default Filter;

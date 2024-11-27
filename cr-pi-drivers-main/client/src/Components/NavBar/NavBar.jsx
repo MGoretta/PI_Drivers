@@ -1,33 +1,23 @@
 import { Link, useLocation } from "react-router-dom";
-import  SearchBar  from "../SearchBar/SearchBar";
 import "./NavBar.css";
 
-const NavBar = () => {
-  const { pathname } = useLocation();
-
-// const preventDefault = (event) => {
-//   event.preventDefault()
-// }
-
+const NavBar = () => { 
   return (
-    <header className="header">
+  <header className="navHeader">
       <nav className="nav">
-        <Link to={"/"}>
-          <button className="navButton navButtonClose">Landing</button>
-        </Link>
-        <div className="navButtons">
-          <a href="/home">
-            <button className="navButton">Home</button>
-          </a>
-          <Link to={"/create"}>
-            <button className="navButton">Create</button>
+          <Link to={"/"}>
+              <button className="navButton navButtonClose">Cerrar</button>
           </Link>
-          <div className="navSearch">
-            {pathname === "/home" && <SearchBar />}
+          <div className="navButtons">
+              <a href="/home">
+                  <button className="navButton">Home</button>
+              </a>
+              <Link to={"/create"}>
+                  <button className="navButton">Create</button>
+              </Link>
           </div>
-        </div>
       </nav>
-    </header>
+  </header>
   );
 };
 

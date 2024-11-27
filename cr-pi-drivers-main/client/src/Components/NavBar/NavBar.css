@@ -1,37 +1,62 @@
-.header {
-    background-color: #808080; /* Color gris */
+a{
+    text-decoration: none;
+}
+
+.navHeader {
+    background: #1a4291;
+    background: radial-gradient(circle farthest-corner at center center, #071534 0%, #470303 200%);
+    background: -webkit-radial-gradient(circle farthest-corner at center center, #071534 0%, #e48e2d 200%);
+    background: -moz-radial-gradient(circle farthest-corner at center center, #071534 0%, #c2b119 200%);
+    border-bottom: solid rgb(123, 123, 123) 1px;
+    padding: 30px;
+    height: 6vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-   }
-   
-   .nav {
+}
+
+.nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-   }
-   
-   .navButton, .navButtonClose {
-    background-color: #FF0000; /* Color rojo */
-    color: white;
+    width: 95%;
+}
+
+.navLogo{
+    height: 100px;
+}
+
+.navButtons {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right: 20px;
+}
+
+.navButton {
+    margin-right: 20px;
+    background-color: #fff;
+    color: #900;
     border: none;
     padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
-    margin-right: 10px;
-   }
-   
-   .navButton:hover, .navButtonClose:hover {
-    background-color: #FF4500; /* Color rojo más claro al pasar el cursor */
-   }
-   
-   .navButtons {
-    display: flex;
-    align-items: center;
-   }
-   
-   .navSearch {
-    display: flex;
-    align-items: center;
-   }
+    font-size: 22px;
+    transition: all 0.3s ease;
+    height: 50px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    text-shadow: 0px 0px 2px white;
+    box-shadow: 0px 8px 15px #900;
+}
+
+.navButtonClose{
+    margin-right: 130px;
+}
+
+.navButton:hover {
+    background-color: #900;
+    color: #fff;
+    border: #fff;
+    box-shadow: none;
+}

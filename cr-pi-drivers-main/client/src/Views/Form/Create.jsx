@@ -1,276 +1,258 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { createDriverRequest } from "../../Redux/Actions/actions";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { createDriverRequest } from '../../Redux/Actions/actions';
 import {
-  capitalizeFirstLetter,
-  capitalizeFirstWord,
-  formatDOB,
-  isDriverExists,
-  validateDateFormat,
-  validateEmptyFields,
-  validateImageFormat,
-  validateNameFormat,
-  validateTeams,
-} from "./Validations";
+    validateFields,
+    validateDate,
+    validateName,
+    validateImage,
+    validateTeams,
+    isDriverExists,
+    mayusFirstLetter,
+    mayusFirstWord,
+    dobFormat
+} from './Validations';
+import './Create.css';
 
-const CreateDriverForm = () => {
-  const [forename, setForename] = useState("");
-  const [surname, setSurname] = useState("");
-  const [nationality, setNationality] = useState("");
-  const [image, setImage] = useState("");
-  const [dob, setDob] = useState("");
-  const [description, setDescription] = useState("");
-  const [teams, setTeams] = useState("");
-  const [teamsApi, setTeamsApi] = useState("");
-  const [forenameError, setForenameError] = useState("");
-  const [surnameError, setSurnameError] = useState("");
-  const [nationalityError, setNationalityError] = useState("");
-  const [imageError, setImageError] = useState("");
-  const [dobError, setDobError] = useState("");
-  const [teamsError, setTeamsError] = useState("");
-  const [emptyFieldsError, setEmptyFieldsError] = useState("");
+const Form = () => {
+    const [forename, setForename] = useState("");
+    const [surname, setSurname] = useState("");
+    const [nationality, setNationality] = useState("");
+    const [image, setImage] = useState("");
+    const [dob, setDob] = useState("");
+    const [description, setDescription] = useState("");
+    const [teams, setTeams] = useState("");
+    const [teamsApi, setTeamsApi] = useState("");
+    const [forenameError, setForenameError] = useState("");
+    const [surnameError, setSurnameError] = useState("");
+    const [nationalityError, setNationalityError] = useState("");
+    const [imageError, setImageError] = useState("");
+    const [dobError, setDobError] = useState("");
+    const [teamsError, setTeamsError] = useState("");
+    const [fieldsError, setFieldsError] = useState("");
+    const navigate = useNavigate();
 
-  const dispatch = useDispatch();
-  const error = useSelector((state) => state.error);
+    const error = useSelector((state) => state.error);
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:3001/teams")
-      .then((response) => response.json())
-      .then((data) => {
-        setTeamsApi(data);
-      console.log(teamsApi);
-  })
-      .catch((error) => console.error("Error fetching teams:", error));
-  }, []);
+    useEffect(() => {
+        fetch('http://localhost:3001/teams')
+        .then((response) => response.json())
+        .then((data) => {
+            const teamNames = data.map((team) => team.name);
+            console.log('Teams names:', teamNames);
+            setTeamsApi(data)})
+        .catch((error) => console.error('Hubo un error al buscar los teams:', error));
+    }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    resetErrors();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        resetErrors();
 
-    if (validateForm()) {
-      const driverExists = await isDriverExists(forename, surname);
-      if (driverExists) {
-        setForenameError("Driver already exists");
-        return;
-      }
+        if(validateForm()){
+            const existDriver = await isDriverExists(forename, surname);
+            if(existDriver){
+                setForenameError('El driver ya existe.');
+                return;
+            }
+            dispatch(
+                createDriverRequest({
+                    forename,
+                    surname,
+                    nationality,
+                    image,
+                    dob,
+                    description,
+                    teams
+                })
+            );
+            resetForm();
+            alert('El driver ha sido creado exitosamente.')
+            navigate("/home");
+        }
+    };
 
-      dispatch(
-        createDriverRequest({
-          forename,
-          surname,
-          nationality,
-          image,
-          dob,
-          description,
-          teams,
-        })
-      );
+    const resetErrors = () => {
+        setForenameError("");
+        setSurnameError("");
+        setNationalityError(""),
+        setImageError("");
+        setDobError("");
+        setTeamsError("")
+    };
 
-      resetForm();
-      alert("Driver created successfully");
-    }
-  };
+    const resetForm = () => {
+        setForename("");
+        setSurname("");
+        setNationality(""),
+        setImage("");
+        setDob("");
+        setDescription("");
+        setTeams("")
+    };
 
-  const resetErrors = () => {
-    setForenameError("");
-    setSurnameError("");
-    setNationalityError("");
-    setImageError("");
-    setDobError("");
-    setTeamsError("");
-  };
+    const validateForm = () => {
+        if(validateFields(
+            forename,
+            surname,
+            nationality,
+            image,
+            dob,
+            description,
+            teams
+        )){
+            setFieldsError('Por favor rellene todos los campos.');
+            return false;
+        }
+        if(!validateDate(dob)){
+            setDobError("La fecha de nacimiento debe estar en formato yyyy/mm/dd.");
+            return false;
+        }
+        if(!validateName(forename, surname)){
+            setForenameError("El nombre y apellido no deben contener números o carácteres especiales.");
+            return false;
+        }
+        if(!validateImage(image)){
+            setImageError("La imagen debe estar en formato JPG o JPEG.");
+            return false;
+        }
+        if(!validateTeams(teams, teamsApi)){
+            setTeamsError("Por favor ingrese teams válidos.")
+            return false;
+        }
+        return true;
+    };
 
-  const resetForm = () => {
-    setForename("");
-    setSurname("");
-    setNationality("");
-    setImage("");
-    setDob("");
-    setDescription("");
-    setTeams("");
-  };
+    const handleChangeForename = (event) => {
+        setForename(mayusFirstLetter(event.target.value));
+    };
 
-  const validateForm = () => {
-    if (
-      validateEmptyFields(
-        forename,
-        surname,
-        nationality,
-        image,
-        dob,
-        description,
-        teams
-      )
-    ) {
-      setEmptyFieldsError("Please fill in all fields.");
-      return false;
-    }
+    const handleChangeSurname = (event) => {
+        setSurname(mayusFirstLetter(event.target.value));
+    };
 
-    if (!validateDateFormat(dob)) {
-      setDobError("Date of birth must be in the format dd/mm/yyyy.");
-      return false;
-    }
+    const handleChangeNationality = (event) => {
+        setNationality(mayusFirstLetter(event.target.value));
+    };
 
-    if (!validateNameFormat(forename, surname)) {
-      setForenameError(
-        "First name and last name should not contain numbers or special characters."
-      );
-      return false;
-    }
+    const handleChangeTeams = (event) => {
+        setTeams(mayusFirstLetter(event.target.value));
+    };
 
-    if (!validateImageFormat(image)) {
-      setImageError("Image URL should have JPG or JPEG format.");
-      return false;
-    }
+    const handleChangeDescription = (event) => {
+        setDescription(mayusFirstWord(event.target.value));
+    };
 
-    if (!validateTeams(teams, teamsApi)) {
-      setTeamsError("Please enter valid teams.");
-      return false;
-    }
+    const handleChangeDOB = (event) => {
+        setDob(dobFormat(event.target.value));
+    };
 
-    return true;
-  };
-
-  const handleForenameChange = (event) => {
-    setForename(capitalizeFirstLetter(event.target.value));
-  };
-
-  const handleSurnameChange = (event) => {
-    setSurname(capitalizeFirstLetter(event.target.value));
-  };
-
-  const handleNationalityChange = (event) => {
-    setNationality(capitalizeFirstLetter(event.target.value));
-  };
-
-  const handleTeamsChange = (event) => {
-    setTeams(capitalizeFirstLetter(event.target.value));
-  };
-
-  const handleDescriptionChange = (event) => {
-    setDescription(capitalizeFirstWord(event.target.value));
-  };
-
-  const handleDOBChange = (event) => {
-    setDob(formatDOB(event.target.value));
-  };
-
-  return (
-    <main className="form">
-      <form onSubmit={handleSubmit} className="formContainer">
-        <h1 className="formTitle">Create new driver</h1>
-        <div className="formContInutsTextarea">
-          <div className="formContInputs">
-            <label htmlFor="forename" className="formLabel">
-              Name:
-            </label>
-            <input
-              type="text"
-              id="forname"
-              value={forename}
-              onChange={handleForenameChange}
-              placeholder="Name (no numbers or special characters)"
-              className="formInput"
-            />
-            {forenameError && <div className="errorForm">{forenameError}</div>}
-            <br />
-            <label htmlFor="lastname" className="formLabel">
-              Lastname:
-            </label>
-            <input
-              type="text"
-              id="lastname"
-              value={surname}
-              onChange={handleSurnameChange}
-              placeholder="Surname (no numbers or special characters)"
-              className="formInput"
-            />
-            {surnameError && <div className="errorForm">{surnameError}</div>}
-            <br />
-            <label htmlFor="teams" className="formLabel">
-              Teams:
-            </label>
-            <input
-              type="text"
-              id="teams"
-              value={teams}
-              onChange={handleTeamsChange}
-              placeholder="Enter teams (Ferrari, Mercedes)"
-              className="formInput"
-            />
-            {teamsError && <div className="errorForm">{teamsError}</div>}
-            <br />
-            <label htmlFor="nationality" className="formLabel">
-              Nationality:
-            </label>
-            <input
-              type="text"
-              id="nationality"
-              value={nationality}
-              onChange={handleNationalityChange}
-              placeholder="Enter nationality"
-              className="formInput"
-            />
-            {nationalityError && (
-              <div className="errorForm">{nationalityError}</div>
-            )}
-            <br />
-            <label htmlFor="dob" className="formLabel">
-              Dob:
-            </label>
-            <input
-              type="text"
-              id="dob"
-              value={dob}
-              onChange={handleDOBChange}
-              placeholder="Enter date of birth (dd/mm/yyyy)"
-              className="formInput"
-            />
-            {dobError && <div className="errorForm">{dobError}</div>}
-            <br />
-            <label htmlFor="image" className="formLabel">
-              URL from image:
-            </label>
-            <input
-              type="text"
-              id="image"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              placeholder="Enter image URL (.JPG or .JPEG)"
-              className="formInput"
-            />
-            {imageError && <div className="errorForm">{imageError}</div>}
-          </div>
-          <div className="formContTextarea">
-          <br />
-            <label htmlFor="description" className="formLabelText">
-              Description:
-            </label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={handleDescriptionChange}
-              className="formTextarea"
-              maxLength={1400}
-              placeholder="Enter description"
-            />
-          </div>
-        </div>
-        <br />
-        <button type="submit" className="formButtom">
-          Create
-        </button>
-        <div className="conatinerError">
-          {" "}
-          {emptyFieldsError && (
-            <div className="errorForm">{emptyFieldsError}</div>
-          )}
-          {error && <div className="errorForm">{error}</div>}
-        </div>
-      </form>
-    </main>
-  );
+    return (
+        <main className='form'>
+            <form onSubmit={handleSubmit} className='formContainer'>
+                <h1 className='formTitle'>Crea un nuevo driver</h1>
+                <div className='formContainerTextarea'>
+                    <div className='formContainerInput'>
+                        <label htmlFor='forename' className='formLabel'>
+                            Forename: 
+                        </label>
+                        <input
+                        type='text'
+                        id='forename'
+                        value={forename}
+                        onChange={handleChangeForename}
+                        placeholder='Forename'
+                        className='formInput'
+                        />
+                        {forenameError && <div className='formError'>{forenameError}</div>}
+                        <label htmlFor='surname' className='formLabel'>
+                            Surname:
+                        </label>
+                        <input
+                        type='text'
+                        id='surname'
+                        value={surname}
+                        onChange={handleChangeSurname}
+                        placeholder='Surname'
+                        className='formInput'
+                        />
+                        {surnameError && <div className='formError'>{surnameError}</div>}
+                        <label htmlFor='teams' className='formLabel'>
+                            Teams:
+                        </label>
+                        <input
+                        type='text'
+                        id='teams'
+                        value={teams}
+                        onChange={handleChangeTeams}
+                        placeholder='Ingrese los teams (McClaren, Ferrari)'
+                        className='formInput'
+                        />
+                        {teamsError && <div className='formError'>{teamsError}</div>}
+                        <label htmlFor='nationality' className='formLabel'>
+                            Nationality:
+                        </label>
+                        <input
+                        type='text'
+                        id='nationality'
+                        value={nationality}
+                        onChange={handleChangeNationality}
+                        placeholder='Ingrese la nacionalidad'
+                        className='formInput'
+                        />
+                        {nationalityError && <div className='formError'>{nationalityError}</div>}
+                        <label htmlFor='dob' className='formLabel'>
+                            Dob:
+                        </label>
+                        <input
+                        type='text'
+                        id='dob'
+                        value={dob}
+                        onChange={handleChangeDOB}
+                        placeholder='Ingrese la fecha de nacimiento (yyyy/mm/dd)'
+                        className='formInput'
+                        />
+                        {dobError && <div className='formError'>{dobError}</div>}
+                        <label htmlFor='image' className='formLabel'>
+                            URL de la imagen:
+                        </label>
+                        <input
+                        type='text'
+                        id='image'
+                        value={image}
+                        onChange={(e) => setImage(e.target.value)}
+                        placeholder='Ingrese la URL de la imagen (jpg o jpeg)'
+                        className='formInput'
+                        />
+                        {imageError && <div className='formError'>{imageError}</div>}
+                    </div>
+                    <div className='formContTextarea'>
+                        <label htmlFor='description' className='formLabelText'>
+                            Description:
+                        </label>
+                        <textarea
+                        id='description'
+                        value={description}
+                        onChange={handleChangeDescription}
+                        className='formTextarea'
+                        maxLength={1500}
+                        placeholder='Escriba una descripción.'
+                        />
+                    </div>
+                </div>
+                <button type='submit' className='formButton'>
+                    Create
+                </button>
+                <div className='errorContainer'>
+                    {" "}
+                    {fieldsError && (<div className='formError'>{fieldsError}</div>)}
+                    {error && <div className='formError'>{error}</div>}
+                </div>
+            </form>
+        </main>
+    );
 };
 
-export default CreateDriverForm;
+export default Form;

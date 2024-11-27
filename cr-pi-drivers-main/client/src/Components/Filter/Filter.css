@@ -1,39 +1,54 @@
-.homeOrder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #FFFFFF; /* Color blanco */
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-   }
-   
-   .homeConteinerSelect {
+.orderHome {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
-   }
-   
-   .homeOrderSelect {
-    background-color: #FFFFFF; /* Color blanco */
-    color: #000000; /* Color negro */
-    border: 2px solid #FF0000; /* Borde rojo */
-    padding: 5px 10px;
-    margin-right: 10px;
+    margin: 25px 0 40px;
+    padding: 15px 30px;
+    width: 60%;
+    background: #1a98a1;
+    background: radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
+    background: -webkit-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
+    background: -moz-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
+    border: solid rgb(123, 123, 123) 1px;
+}
+
+.selectOrderHome {
+    padding: 5px;
+    border: none;
+    background-color: #367fa9;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
     cursor: pointer;
-   }
-   
-   .homeOrderSelect:hover {
-    background-color: #FF4500; /* Color rojo más claro al pasar el cursor */
-   }
-   
-   .homeOrderLabel {
-    color: #000000; /* Color negro */
-    margin-right: 10px;
-   }
-   
-   .borderRight {
-    border-right: 2px solid #FF0000; /* Borde rojo */
-   }
+    appearance: none;
+    text-align: center;
+}
+
+.selectOrderHome:focus {
+    outline: none;
+}
+
+.selectOrderHome option {
+    background-color: #6a88c9;
+    color: white;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.labelOrderHome{
+    color: white;
+    margin: 0 5px 0 30px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.selectContainerHome{
+    border-left: solid white 2px;
+    padding: 0 8px;
+    margin: 0 5px;
+}
+
+.borderRight{
+    border-right: solid white 2px;
+}
