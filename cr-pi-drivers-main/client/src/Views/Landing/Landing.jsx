@@ -6,7 +6,7 @@ const Landing = () => {
     <div className="landing">
       <div className='containerLanding'>
       <Link to="/home">
-        <button className="buttonLanding">Click here!</button>
+        <button className="buttonLanding">Run here!</button>
       </Link>
       </div>
     </div>

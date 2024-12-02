@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
-// import './App.css';
+import './App.css';
 import Landing from "./Views/Landing/Landing";
 import Home from "./Views/Home/Home";
 import Detail from "./Views/Detail/Detail";
