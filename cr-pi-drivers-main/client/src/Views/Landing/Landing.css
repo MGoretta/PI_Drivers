@@ -3,7 +3,6 @@
     padding: 0;
     height: 100vh;
     width: 100vw;
-    border: 2px solid red; /* Solo para diagnóstico */
     background-image: url('../../assets/fondolanding.jpg'); /* Ruta de tu imagen */
     background-size: cover;
     background-position: center;

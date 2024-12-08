@@ -9,6 +9,7 @@ body, html {
   color: #FFFFFF; /* Blanco para contraste */
   line-height: 1.5; /* Configuración global para textos */
   box-sizing: border-box; /* Para que padding y bordes no afecten las dimensiones */
+  overflow-x: hidden;
 }
 
 /* Tipografía */
@@ -30,6 +31,6 @@ p {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 1rem;
+  padding: 0;
 }
 
