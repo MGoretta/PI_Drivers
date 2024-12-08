@@ -1,50 +1,60 @@
 a {
     text-decoration: none;
-}
-
-.navHeader {
-    background: radial-gradient(circle farthest-corner at center, #071534 0%, #470303 200%);
-    border-bottom: 1px solid rgb(123, 123, 123);
-    padding: 1rem;
-    min-height: 8vh;
+    color: inherit;
+  }
+  
+  .navHeader {
+    background: linear-gradient(90deg, #0a0c1d 0%, #1a1a1a 100%);
+    border-bottom: 2px solid #e10600;
+    padding: 1rem 2rem;
+    min-height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 95%;
-}
-
-.navButtons {
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .navLogo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e10600;
+    text-shadow: 0px 0px 5px #e10600;
+  }
+  
+  .navButtons {
     display: flex;
     align-items: center;
-    gap: 1rem; /* Espaciado uniforme */
-}
-
-.navButtons button:first-child {
-    margin-right: auto; /* Empuja el primer botón hacia la izquierda */
-}
-
-.navButton {
-    background-color: #E10600;
+    gap: 1rem;
+  }
+  
+  .navButton {
+    background: #e10600;
     color: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
+    border: 2px solid transparent;
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
     font-size: 1rem;
-    font-family: 'Arial', sans-serif;
-    font-weight: 600;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: "Orbitron", sans-serif;
+    font-weight: bold;
+    cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.navButton:hover {
-    background-color: #fff;
-    color: #E10600;
-    box-shadow: none;
-}
+    box-shadow: 0px 5px 10px rgba(255, 0, 0, 0.5);
+  }
+  
+  .navButton:hover {
+    background: transparent;
+    color: #e10600;
+    border: 2px solid #e10600;
+    box-shadow: 0px 0px 15px #e10600;
+  }
+  

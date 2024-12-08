@@ -36,7 +36,7 @@ const SearchBar = () => {
                     handleSearch();
                 }
             }}
-            placeholder="Ingrese el nombre de un conductor"
+            placeholder="Buscar conductores"
             value={name}
             className="searchInput"
             />

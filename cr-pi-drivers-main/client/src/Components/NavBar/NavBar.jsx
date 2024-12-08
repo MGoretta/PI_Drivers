@@ -5,9 +5,9 @@ const NavBar = () => {
   return (
     <header className="navHeader">
       <nav className="nav">
-        <Link to="/">
-          <button className="navButton navButtonClose">Cerrar</button>
-        </Link>
+        <div className="navLogo">
+          <Link to="/">F1 Portal</Link>
+        </div>
         <div className="navButtons">
           <Link to="/home">
             <button className="navButton">Home</button>
@@ -22,4 +22,5 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
 
