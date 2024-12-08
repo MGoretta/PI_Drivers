@@ -3,11 +3,12 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100%;
   font-family: 'Arial', sans-serif; /* Cambia por una fuente futurista si quieres */
   background-color: #121212; /* Negro moderno */
   color: #FFFFFF; /* Blanco para contraste */
   line-height: 1.5; /* Configuración global para textos */
-  overflow-x: hidden; /* Evita scroll horizontal innecesario */
+  box-sizing: border-box; /* Para que padding y bordes no afecten las dimensiones */
 }
 
 /* Tipografía */
