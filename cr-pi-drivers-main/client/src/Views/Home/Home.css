@@ -1,13 +1,9 @@
 .home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #af585878;
+  background-color: #111; /* Fondo más oscuro */
   background-image: url('../../assets/fondo_home.jpg');
   background-size: cover;
   background-attachment: fixed;
-  min-height: 83.2vh;
+  color: white; /* Mejor contraste general */
 }
 
 a{
@@ -23,35 +19,27 @@ a{
 
 .paginationHome {
   display: flex;
+  gap: 10px;
   justify-content: center;
   align-items: center;
-  margin: 40px 0 10px;
-  padding: 15px 20px;
-  background: #fff;
-  border: solid rgb(123, 123, 123) 1px;
-  border-radius: 10px;
+  margin-top: 20px;
 }
 
 .buttonPaginationHome {
-  margin: 0 10px;
-  background-color: #fff;
-  color: #900;
+  background-color: #900;
+  color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
+  font-weight: bold;
   transition: all 0.3s ease;
-  height: 40px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  text-shadow: 0px 0px 2px white;
 }
 
 .buttonPaginationHome:hover {
-  background-color: #900;
+  background-color: #c00; /* Rojo más vibrante */
   color: #fff;
-  box-shadow: none;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
 }
 
 .spanPaginationHome {

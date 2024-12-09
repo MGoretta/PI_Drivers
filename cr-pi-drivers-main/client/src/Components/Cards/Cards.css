@@ -1,8 +1,9 @@
 .cardsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid; /* Usamos Grid Layout */
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
+    gap: 20px; /* Espaciado entre tarjetas */
+    justify-content: center; /* Centrar en horizontal */
     background-color: #D3D3D3;
     padding: 20px;
     overflow: hidden;
-   }
+}
