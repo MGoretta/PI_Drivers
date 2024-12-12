@@ -1,9 +1,22 @@
 .cardsContainer {
     display: grid; /* Usamos Grid Layout */
     grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
-    gap: 20px; /* Espaciado entre tarjetas */
+    gap: 16px; /* Espaciado entre tarjetas */
     justify-content: center; /* Centrar en horizontal */
     background-color: #D3D3D3;
     padding: 20px;
     overflow: hidden;
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centra el contenedor */
+}
+
+@media (max-width: 768px) {
+    .cardsContainer {
+        grid-template-columns: repeat(2, 1fr); /* Cambiar a 2 columnas */
+    }
+}
+@media (max-width: 480px) {
+    .cardsContainer {
+        grid-template-columns: 1fr; /* Cambiar a 1 columna */
+    }
 }

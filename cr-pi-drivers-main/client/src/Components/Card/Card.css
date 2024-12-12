@@ -8,16 +8,17 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between; /* Espaciado uniforme entre imagen y texto */
   text-align: center;
-  margin: 0 auto; /* Asegura que se alineen bien */
+  /*margin: 0 auto;  Asegura que se alineen bien */
   background-color: #962e2e;
-  background-image: url('../../assets/fondo-card.jpg');
+  /* background-image: url('../../assets/fondo-card.jpg'); */
   background-size: cover;
   border-radius: 5px;
   border: solid rgba(255,255,255,0.65) 1px;
   box-shadow: 1px -1px 25px -5px rgba(255,255,255,0.65);
   transition: transform 0.3s ease;
+  overflow: hidden; /* Evita que el contenido se desborde */
 }
 
 .card:hover {
@@ -30,7 +31,7 @@ a {
   height: auto;
   aspect-ratio: 4/3; /* Ajusta según la proporción deseada */
   object-fit: cover;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   overflow: hidden; /* Evita desbordes */
   background-color: #000; /* Para rellenar posibles bordes */
 }
