@@ -1,54 +1,89 @@
 .orderHome {
     display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se muevan a la siguiente línea si es necesario */
     justify-content: center;
     align-items: center;
     margin: 25px 0 40px;
     padding: 15px 30px;
-    width: 60%;
-    background: #1a98a1;
+    max-width: 100%; /* Asegura que no se salga del contenedor */
     background: radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
-    background: -webkit-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
-    background: -moz-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
     border: solid rgb(123, 123, 123) 1px;
+    gap: 10px; /* Espaciado entre los elementos */
 }
 
 .selectOrderHome {
-    padding: 5px;
+    padding: 8px 12px; /* Espaciado más cómodo */
     border: none;
-    background-color: #367fa9;
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #4a90e2; /* Color más claro para destacar */
+    position: relative;
+    background-image: url('path-to-icon.svg'); /* Icono personalizado */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     cursor: pointer;
     appearance: none;
     text-align: center;
+    transition: all 0.3s ease; /* Transiciones para hover/foco */
+}
+
+.selectOrderHome:hover {
+    background-color: #5ba9ff; /* Efecto de hover */
 }
 
 .selectOrderHome:focus {
-    outline: none;
+    outline: 2px solid #a4d1ff; /* Resalta el foco */
 }
 
 .selectOrderHome option {
     background-color: #6a88c9;
     color: white;
-    padding: 10px 25px;
+    padding: 10px;
     font-size: 16px;
     font-weight: 500;
 }
 
-.labelOrderHome{
+.labelOrderHome {
+
+    white-space: nowrap; /* Previene que el texto "Teams:" salte de línea */
     color: white;
     margin: 0 5px 0 30px;
     font-size: 20px;
     font-weight: 600;
+
+    /* color: white;
+    margin: 0 8px 0 20px;  Ajustar espaciado 
+    font-size: 18px;
+    font-weight: 600; */
 }
 
-.selectContainerHome{
+.selectContainerHome {
     border-left: solid white 2px;
     padding: 0 8px;
     margin: 0 5px;
+    min-width: 200px; /* Asegura que todos los contenedores tengan espacio mínimo */
+
+    /* padding: 0 10px;
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.5);  Líneas más sutiles
+    margin-bottom: 10px; */
 }
 
-.borderRight{
-    border-right: solid white 2px;
+.selectContainerHome:last-child {
+    border-right: none; /* Eliminar borde derecho en la última sección */
+}
+
+.rightBorder {
+    border-right: 1px solid rgba(255, 255, 255, 0.5); /* Bordes más claros */
+}
+
+@media (max-width: 768px) {
+    .orderHome {
+        flex-direction: column;
+        width: 90%; /* Más pequeño en dispositivos móviles */
+    }
 }
