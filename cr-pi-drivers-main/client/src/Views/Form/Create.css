@@ -1,71 +1,83 @@
+/* Formulario principal */
+
 .form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url('./assets/fondo.jpg');
-  background-size: cover;
-  background-attachment: fixed;
-  min-height: 87.5vh;
+  justify-content: center;
+  width: 90%; /* Ajusta según el tamaño deseado */
+  max-width: 500px; /* Limita el ancho del formulario */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo semitransparente */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25); /* Sombras para realce */
 }
 
+/* Título del formulario */
 .formTitle {
   font-size: 34px;
   font-weight: bold;
   color: #900;
-  margin-block-start: 10px;
-  margin-block-end: 0;
+  margin: 10px 0;
   border-bottom: solid white 1px;
+  text-align: center;
 }
 
+/* Contenedor del formulario */
 .formContainer {
   width: 80%;
+  max-width: 700px;
   padding: 20px;
-  margin: 50px;
+  margin: 50px auto;
   border-radius: 10px;
-  background-image: url('./assets/fondo-card.jpg');
+  background-image: url('.fondo-card.jpg');
   background-size: cover;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1),
+              1px -1px 25px -5px rgba(255, 255, 255, 0.65);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch; /* Alinear los elementos dentro */
   text-align: center;
-  box-shadow: 1px -1px 25px -5px rgba(255,255,255,0.65);
-  -webkit-box-shadow: 1px -1px 25px -5px rgba(255,255,255,0.65);
-  -moz-box-shadow: 1px -1px 25px -5px rgba(255,255,255,0.65);
 }
 
-.formLabel {
-  font-size: 28px;
-  color: #900;
-  margin: 10px;
+/* Etiquetas */
+.formLabel, .formLabelText {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 10px 0;
   text-align: left;
-  margin-left: calc(10%);
 }
 
-.formInput {
+/* Campos de entrada */
+.formInput, .formTextarea {
   font-size: 16px;
   padding: 10px;
   border-radius: 5px;
-  border: solid black 1px;
-  background-color: white;
-  width: 350px;
-  margin-left: calc(10%);
+  border: solid #ccc 1px;
+  background-color: #fff;
+  margin-bottom: 15px;
+  width: 100%; /* Asegurarse de que tome todo el espacio disponible */
+  box-sizing: border-box;
 }
 
-.formInput::placeholder{
-  font-weight: 600;
+/* Placeholder de entrada */
+.formInput::placeholder,
+.formTextarea::placeholder {
+  font-weight: 500;
+  color: #999;
 }
 
-.formContainerTextarea {
-  display: flex;
-}
-
-.formContainerInput{
+/* Contenedor de entrada */
+.formContainerInput {
   display: flex;
   flex-direction: column;
-  width: 40vw;
+  align-items: stretch; /* Alinear campos e inputs */
+  width: 100%;
+  background-image: url('./assets/fondo-card.jpg');
 }
 
+/* Botón */
 .formButtom {
   background-color: #060707;
   color: white;
@@ -74,55 +86,26 @@
   border-radius: 5px;
   margin-top: 20px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 18px;
   transition: all 0.3s ease;
-  height: 50px;
   font-family: "Roboto", sans-serif;
-  font-weight: 500;
   text-shadow: 0px 0px 2px white;
-  margin: 0 30px 10px auto;
 }
 
 .formButtom:hover {
   background-color: #2fbeab;
 }
 
-.formTextarea{
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 5px;
-  border: solid black 1px;
-  background-color: white;
-  width: 500px;
-  height: 350px;
-  resize: none;
-}
-
-.formTextarea::placeholder{
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.formLabelText{
-  font-size: 28px;
-  color: #ffffff;
-  margin: 10px;
-  text-align: left;
-}
-
-.formContTextarea{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
+/* Errores */
 .formError {
   color: rgb(109, 44, 194);
-  font-size: 22px;
+  font-size: 14px;
   font-weight: 600;
-  margin: 10px auto 0 0;
+  text-align: center;
+  margin-top: 10px;
 }
 
-.errorContainer{
+/* Contenedor de errores */
+.errorContainer {
   text-align: center;
 }
