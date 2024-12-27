@@ -1,19 +1,21 @@
-/* Formulario principal */
-
 .form {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  width: 90%; /* Ajusta según el tamaño deseado */
-  max-width: 500px; /* Limita el ancho del formulario */
-  padding: 20px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #1a1a1a, #900000); /* Gradiente negro-rojo */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25); /* Sombras para realce */
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f0f0f0;
 }
 
-/* Título del formulario */
+.formContainer {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 .formTitle {
   font-size: 34px;
   font-weight: bold;
@@ -23,21 +25,10 @@
   text-align: center;
 }
 
-/* Contenedor del formulario */
-.formContainer {
-  width: 80%;
-  max-width: 700px;
-  padding: 20px;
-  margin: 50px auto;
-  border-radius: 10px;
-  /* background-image: url('.fondo-card.jpg'); */
-  background-size: cover;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1),
-              1px -1px 25px -5px rgba(255, 255, 255, 0.65);
+.formContainerTextarea {
   display: flex;
   flex-direction: column;
-  align-items: stretch; /* Alinear los elementos dentro */
-  text-align: center;
+  gap: 15px; /* Espacio entre inputs */
 }
 
 /* Etiquetas */
@@ -46,7 +37,7 @@
   font-weight: bold;
   color: #ffffff;
   margin: 10px 0;
-  text-align: left;
+  text-align: center;
 }
 
 /* Campos de entrada */
@@ -61,50 +52,27 @@
   box-sizing: border-box;
 }
 
-/* Placeholder de entrada */
-.formInput::placeholder,
-.formTextarea::placeholder {
-  font-weight: 500;
-  color: #999;
-}
-
-/* Contenedor de entrada */
-.formContainerInput {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch; /* Alinear campos e inputs */
-  width: 100%;
-  /* background-image: url('./assets/fondo-card.jpg'); */
-}
-
-/* Botón */
 .formButton {
-  background: #634544;
-    color: #fff;
-    border: none;
-    padding: 0.8rem 1.2rem;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-family: "Orbitron", sans-serif;
-    transition: all 0.3s ease;
-    box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.5);
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
 .formButton:hover {
-  background-color: #30030b;
+  background-color: #0056b3;
 }
 
-/* Errores */
 .formError {
-  color: rgb(109, 44, 194);
+  color: red;
   font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
-/* Contenedor de errores */
-.errorContainer {
-  text-align: center;
-}
+
