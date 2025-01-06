@@ -58,13 +58,18 @@ export const searchDrivers = (name) => {
             const response = await axios.get(`http://localhost:3001/drivers?name=${name}`);
             const { data } = response;
             const currentState = getState();
+            console.log('Estado actual de drivers antes del filtro:', currentState.drivers); // <-- Aquí
 
             if(!Array.isArray(data) || data.length === 0){
                 return;
             }
-            const allDrivers = data.filter((driver) => {
-                return !currentState.drivers.some((existDriver) => existDriver.id === driver.id);
-            });
+            // const allDrivers = data.filter((driver) => {
+            //     return !currentState.drivers.some((existDriver) => existDriver.id === driver.id);
+            // });
+
+            const allDrivers = data;
+
+
             if(allDrivers.length === 0){
                 return;
             }
@@ -72,6 +77,7 @@ export const searchDrivers = (name) => {
                 type: SEARCH_DRIVERS,
                 payload: allDrivers,
             });
+            console.log('Drivers despachados:', allDrivers);
         } catch (error) {
             console.error('Hubo un error al buscar los conductores:', error);
             alert('No se encontraron drivers con este nombre. Intente creando uno.');
