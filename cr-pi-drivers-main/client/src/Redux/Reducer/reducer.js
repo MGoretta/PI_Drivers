@@ -1,4 +1,6 @@
-import { clusterDriversFilter, sortDrivers } from "../Actions/actions.js";
+import { clusterDriversFilter } from "../Actions/actions.js";
+import { sortDrivers } from "./helpers/sortUtils.js";
+import { uniqueAndSortedDrivers } from "./helpers/driverUtils";
 
 import {
     SEARCH_DRIVERS,
@@ -40,31 +42,16 @@ const rootReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case SEARCH_DRIVERS:
-            searchFilteredDrivers = action.payload.filter((driver) => 
-                state.drivers.every((existDriver) => existDriver.id !== driver.id)
-            );
-
-            searchOrderedFilteredDrivers = sortDrivers(
-                searchFilteredDrivers,
+            const uniqueDrivers = uniqueAndSortedDrivers(
+                state.drivers,
+                action.payload,
                 state.selectedOrder,
                 state.selectedDirection
             );
-
-            newDrivers = [
-                ...searchOrderedFilteredDrivers,
-            ];
-
-            clusteredDrivers = clusterDriversFilter(
-                state.filteredDrivers,
-                newDrivers,
-                state.selectedOrder,
-                state.selectedDirection
-            );
-
             return {
                 ...state,
-                drivers: newDrivers,
-                filteredDrivers: clusteredDrivers
+                drivers: uniqueDrivers,
+                filteredDrivers: uniqueDrivers
             };
 
         case FETCH_DRIVERS:
