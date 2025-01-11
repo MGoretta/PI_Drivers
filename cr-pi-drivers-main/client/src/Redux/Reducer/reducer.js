@@ -42,17 +42,22 @@ const rootReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case SEARCH_DRIVERS:
-            const uniqueDrivers = uniqueAndSortedDrivers(
-                state.drivers,
-                action.payload,
-                state.selectedOrder,
-                state.selectedDirection
-            );
             return {
                 ...state,
-                drivers: uniqueDrivers,
-                filteredDrivers: uniqueDrivers
+                drivers: action.payload, // Reemplaza completamente los drivers existentes con los filtrados
+                filteredDrivers: action.payload, // Mantén también los filtrados en filteredDrivers
             };
+            // const uniqueDrivers = uniqueAndSortedDrivers(
+            //     state.drivers,
+            //     action.payload,
+            //     state.selectedOrder,
+            //     state.selectedDirection
+            // );
+            // return {
+            //     ...state,
+            //     drivers: uniqueDrivers,
+            //     filteredDrivers: uniqueDrivers
+            // };
 
         case FETCH_DRIVERS:
             if(state.drivers.length === 0){
