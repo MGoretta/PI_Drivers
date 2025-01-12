@@ -1,6 +1,4 @@
-import { clusterDriversFilter } from "../Actions/actions.js";
 import { sortDrivers } from "./helpers/sortUtils.js";
-import { uniqueAndSortedDrivers } from "./helpers/driverUtils";
 
 import {
     SEARCH_DRIVERS,
@@ -32,62 +30,39 @@ let initialState = {
 };
 
 const rootReducer = (state = initialState, action) => {
-    let searchFilteredDrivers;
-    let searchOrderedFilteredDrivers;
-    let sortedDriversByName;
-    let sortedDriversByDob;
-    let newDrivers;
-    let clusteredDrivers;
-    let filteredDrivers;
-
     switch (action.type) {
         case SEARCH_DRIVERS:
             return {
                 ...state,
-                drivers: action.payload, // Reemplaza completamente los drivers existentes con los filtrados
-                filteredDrivers: action.payload, // Mantén también los filtrados en filteredDrivers
+                drivers: action.payload,
+                filteredDrivers: action.payload,
             };
-            // const uniqueDrivers = uniqueAndSortedDrivers(
-            //     state.drivers,
-            //     action.payload,
-            //     state.selectedOrder,
-            //     state.selectedDirection
-            // );
-            // return {
-            //     ...state,
-            //     drivers: uniqueDrivers,
-            //     filteredDrivers: uniqueDrivers
-            // };
 
         case FETCH_DRIVERS:
-            if(state.drivers.length === 0){
-                return {
-                    ...state,
-                    drivers: action.payload,
-                    filteredDrivers: action.payload,
-                    loading: false
-                };
-            } else {
-                return{
-                    ...state,
-                    loading: false
-                };
+            return {
+                ...state,
+                drivers: state.drivers.length === 0 ? action.payload : state.drivers,
+                filteredDrivers: state.drivers.length === 0 ? action.payload : state.filteredDrivers,
+                loading: false,
             };
+
         case RETRIEVE_DRIVER_BY_ID:
             return {
                 ...state,
                 driver: action.payload,
                 loading: false,
-                error: null
+                error: null,
             };
+
         case PAGINATE:
             return {
                 ...state,
                 currentPage: action.payload.page,
-                driversPerPage: action.payload.driversPerPage
+                driversPerPage: action.payload.driversPerPage,
             };
-        case ORDER_BY_NAME:
-            sortedDriversByName = sortDrivers(
+
+        case ORDER_BY_NAME: {
+            const sortedDriversByName = sortDrivers(
                 state.filteredDrivers,
                 "name",
                 action.payload
@@ -96,10 +71,12 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 selectedOrder: "name",
                 selectedDirection: action.payload,
-                filteredDrivers: sortedDriversByName
+                filteredDrivers: sortedDriversByName,
             };
-        case ORDER_BY_DOB:
-            sortedDriversByDob = sortDrivers(
+        }
+
+        case ORDER_BY_DOB: {
+            const sortedDriversByDob = sortDrivers(
                 state.filteredDrivers,
                 "dob",
                 action.payload
@@ -108,32 +85,30 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 selectedOrder: "dob",
                 selectedDirection: action.payload,
-                filteredDrivers: sortedDriversByDob
+                filteredDrivers: sortedDriversByDob,
             };
-        case FILTER:
+        }
+
+        case FILTER: {
             const { teams, origin } = action.payload;
-            
-            if(teams !== "all") {
-                filteredDrivers = state.drivers.filter((driver) => {
-                    return (
-                        driver && ((Array.isArray(driver?.Teams) &&
+            let filteredDrivers = state.drivers;
+
+            if (teams !== "all") {
+                filteredDrivers = filteredDrivers.filter((driver) =>
+                    driver &&
+                    ((Array.isArray(driver.Teams) &&
                         driver.Teams.some((team) => team.name === teams)) ||
                         (typeof driver.teams === "string" &&
-                        driver.teams.split(", ").includes(teams)))
-                    );
-                });
-            } else {
-                filteredDrivers = state.drivers;
+                            driver.teams.split(", ").includes(teams)))
+                );
             }
-            
-            if(origin === "API") {
-                filteredDrivers = filteredDrivers.filter((driver) => 
-                driver && driver.driverRef);
 
+            if (origin === "API") {
+                filteredDrivers = filteredDrivers.filter((driver) => driver && driver.driverRef);
             } else if (origin === "DB") {
-                filteredDrivers = filteredDrivers.filter((driver) => 
-                driver && !driver.driverRef);
-            };
+                filteredDrivers = filteredDrivers.filter((driver) => driver && !driver.driverRef);
+            }
+
             filteredDrivers = sortDrivers(
                 filteredDrivers,
                 state.selectedOrder,
@@ -144,31 +119,36 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 filter: {
                     ...state.filter,
-                    teams: action.payload.teams,
-                    origin: action.payload.origin
+                    teams,
+                    origin,
                 },
-                filteredDrivers: filteredDrivers
+                filteredDrivers,
             };
+        }
+
         case CREATE_DRIVER_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
             };
+
         case CREATE_DRIVER_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                error: null
+                error: null,
             };
+
         case CREATE_DRIVER_ERROR:
             return {
                 ...state,
                 loading: false,
-                error: action.payload
+                error: action.payload,
             };
+
         default:
             return state;
-    };
+    }
 };
 
 export default rootReducer;
