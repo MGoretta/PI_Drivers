@@ -12,6 +12,8 @@ import {
     CREATE_DRIVER_ERROR
 } from "../Actions/actions-types.js";
 
+const BASE_URL = 'http://localhost:3001';
+
 export const clusterDriversFilter = (
     allDrivers,
     newDrivers,
@@ -30,7 +32,7 @@ export const clusterDriversFilter = (
 export const fetchDriverById = (id) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:3001/drivers/${id}`);
+            const response = await axios.get(`${BASE_URL}/drivers/${id}`);
             const data = response.data;
 
             if(Array.isArray(data) && data.length > 0){
@@ -55,7 +57,7 @@ export const fetchDriverById = (id) => {
 export const searchDrivers = (name) => {
     return async (dispatch, getState) => {
         try {
-            const response = await axios.get(`http://localhost:3001/drivers?name=${name}`);
+            const response = await axios.get(`${BASE_URL}/drivers?name=${name}`);
             const { data } = response;
             const currentState = getState();
             console.log('Estado actual de drivers antes del filtro:', currentState.drivers); // <-- Aquí
@@ -63,9 +65,6 @@ export const searchDrivers = (name) => {
             if(!Array.isArray(data) || data.length === 0){
                 return;
             }
-            // const allDrivers = data.filter((driver) => {
-            //     return !currentState.drivers.some((existDriver) => existDriver.id === driver.id);
-            // });
 
             const allDrivers = data;
 
@@ -85,27 +84,27 @@ export const searchDrivers = (name) => {
     };
 };
 
-export const searchDriverByName = (name) => {
-    return async () => {
-        try {
-            const response = await axios.get(`http://localhost:3001/drivers?name=${name}`);
-            const { data } = response;
+// export const searchDriverByName = (name) => {
+//     return async () => {
+//         try {
+//             const response = await axios.get(`http://localhost:3001/drivers?name=${name}`);
+//             const { data } = response;
 
-            if(!Array.isArray(data) || data.length === 0){
-                return null;
-            }
-            return data[0];
-        } catch (error) {
-            console.error('Hubo un error al buscar al driver por su nombre:', error);
-            return null;
-        }
-    };
-};
+//             if(!Array.isArray(data) || data.length === 0){
+//                 return null;
+//             }
+//             return data[0];
+//         } catch (error) {
+//             console.error('Hubo un error al buscar al driver por su nombre:', error);
+//             return null;
+//         }
+//     };
+// };
 
 export const fetchDrivers = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get('http://localhost:3001/drivers');
+            const response = await axios.get('${BASE_URL}/drivers');
             const data = response.data.slice(0, 300);
 
             dispatch({
@@ -150,7 +149,7 @@ export const createDriverRequest = (driverData) => {
     return async (dispatch) => {
         dispatch({ type: CREATE_DRIVER_REQUEST });
         try {
-            await axios.post('http://localhost:3001/drivers', driverData);
+            await axios.post('${BASE_URL}/drivers', driverData);
             dispatch({ type: CREATE_DRIVER_SUCCESS });
         } catch (error) {
             dispatch({ type: CREATE_DRIVER_ERROR, payload: error.message });
