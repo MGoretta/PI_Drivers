@@ -14,6 +14,19 @@ import {
 
 const BASE_URL = 'http://localhost:3001';
 
+const createAction = (type, payload) => ({ type, payload });
+
+// Función auxiliar para procesar datos del driver
+const processDriverData = (data) => {
+    if (Array.isArray(data) && data.length > 0) {
+        return data[0][0]; // Si es un array con datos
+    } else if (typeof data === "object") {
+        return data; // Si es un objeto
+    }
+    console.error("Error: Respuesta inesperada del servidor");
+    return null; // Si no es ninguno de los casos anteriores
+};
+
 export const clusterDriversFilter = (
     allDrivers,
     newDrivers,
@@ -29,27 +42,18 @@ export const clusterDriversFilter = (
     return sortDrivers(clusteredDrivers, selectedOrder, selectedDirection);
 };
 
+// Acción para buscar un driver por su ID
 export const fetchDriverById = (id) => {
     return async (dispatch) => {
         try {
             const response = await axios.get(`${BASE_URL}/drivers/${id}`);
-            const data = response.data;
+            const data = processDriverData(response.data);
 
-            if(Array.isArray(data) && data.length > 0){
-                dispatch({
-                    type: RETRIEVE_DRIVER_BY_ID,
-                    payload: data[0][0],
-                });
-            } else if(typeof data === "object"){
-                dispatch({
-                    type: RETRIEVE_DRIVER_BY_ID,
-                    payload: data,
-                });
-            } else {
-                console.error('Error: Respuesta inesperado del servidor');
+            if (data) {
+                dispatch({ type: RETRIEVE_DRIVER_BY_ID, payload: data });
             }
         } catch (error) {
-            console.error('Hubo un error al obtener detalles del driver:', error);
+            console.error("Hubo un error al obtener detalles del driver:", error);
         }
     };
 };
@@ -65,6 +69,9 @@ export const searchDrivers = (name) => {
             if(!Array.isArray(data) || data.length === 0){
                 return;
             }
+            // const allDrivers = data.filter((driver) => {
+            //     return !currentState.drivers.some((existDriver) => existDriver.id === driver.id);
+            // });
 
             const allDrivers = data;
 
@@ -84,27 +91,10 @@ export const searchDrivers = (name) => {
     };
 };
 
-// export const searchDriverByName = (name) => {
-//     return async () => {
-//         try {
-//             const response = await axios.get(`http://localhost:3001/drivers?name=${name}`);
-//             const { data } = response;
-
-//             if(!Array.isArray(data) || data.length === 0){
-//                 return null;
-//             }
-//             return data[0];
-//         } catch (error) {
-//             console.error('Hubo un error al buscar al driver por su nombre:', error);
-//             return null;
-//         }
-//     };
-// };
-
 export const fetchDrivers = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get('${BASE_URL}/drivers');
+            const response = await axios.get(`${BASE_URL}/drivers`);
             const data = response.data.slice(0, 300);
 
             dispatch({
@@ -117,39 +107,52 @@ export const fetchDrivers = () => {
     };
 };
 
-export const setPaginate = (page, driversPerPage = 9) => {
-    return {
-        type: PAGINATE,
-        payload: { page, driversPerPage },
-    };
-};
+export const setPaginate = (page, driversPerPage = 9) =>
+    createAction(PAGINATE, { page, driversPerPage });
 
-export const setOrderByName = (direction) => {
-    return {
-        type: ORDER_BY_NAME,
-        payload: direction
-    };
-};
+export const setOrderByName = (direction) =>
+    createAction(ORDER_BY_NAME, direction);
 
-export const setOrderByDob = (direction) => {
-    return {
-        type: ORDER_BY_DOB,
-        payload: direction
-    };
-};
+export const setOrderByDob = (direction) =>
+    createAction(ORDER_BY_DOB, direction);
 
-export const setFilter = (filters) => {
-    return {
-        type: FILTER,
-        payload: filters
-    };
-};
+export const setFilter = (filters) =>
+    createAction(FILTER, filters);
+
+//AQUÍ DEJAMOS LA VERSIÓN ANTERIOR DE LO DE ARRIBA (DONDE AGRUPAMOS LAS FUNCIONES SIMPLES)
+// export const setPaginate = (page, driversPerPage = 9) => {
+//     return {
+//         type: PAGINATE,
+//         payload: { page, driversPerPage },
+//     };
+// };
+
+// export const setOrderByName = (direction) => {
+//     return {
+//         type: ORDER_BY_NAME,
+//         payload: direction
+//     };
+// };
+
+// export const setOrderByDob = (direction) => {
+//     return {
+//         type: ORDER_BY_DOB,
+//         payload: direction
+//     };
+// };
+
+// export const setFilter = (filters) => {
+//     return {
+//         type: FILTER,
+//         payload: filters
+//     };
+// };
 
 export const createDriverRequest = (driverData) => {
     return async (dispatch) => {
         dispatch({ type: CREATE_DRIVER_REQUEST });
         try {
-            await axios.post('${BASE_URL}/drivers', driverData);
+            await axios.post(`${BASE_URL}/drivers`, driverData);
             dispatch({ type: CREATE_DRIVER_SUCCESS });
         } catch (error) {
             dispatch({ type: CREATE_DRIVER_ERROR, payload: error.message });

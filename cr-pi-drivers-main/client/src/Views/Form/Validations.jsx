@@ -1,4 +1,19 @@
-import { searchDriverByName } from "../../Redux/Actions/actions";
+export const searchDriverByName = (name) => {
+    return async () => {
+        try {
+            const response = await axios.get(`${BASE_URL}/drivers?name=${name}`);
+            const { data } = response;
+
+            if(!Array.isArray(data) || data.length === 0){
+                return null;
+            }
+            return data[0];
+        } catch (error) {
+            console.error('Hubo un error al buscar al driver por su nombre:', error);
+            return null;
+        }
+    };
+};
 
 const validateFields = (
     forename,
